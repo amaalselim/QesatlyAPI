@@ -45,7 +45,7 @@ namespace QesatlyAPI
             #region SwaggerRegion
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Qusatly API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Qesatly API", Version = "v1" });
                 c.CustomSchemaIds(type => type.FullName);
                 c.SchemaGeneratorOptions = new SchemaGeneratorOptions
                 {
