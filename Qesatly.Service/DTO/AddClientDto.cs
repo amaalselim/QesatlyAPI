@@ -12,8 +12,6 @@ namespace Qesatly.Service.DTO
         public bool Isguarantor { get; set; } = false;
         public string? guarantorName { get; set; }
         public string? guarantorPhone { get; set; }
-        public int? guarantorNationalNumber { get; set; }
-        public string? guarantorAddress { get; set; }
         public IFormFile? guarantorCardphoto { get; set; }
     }
 }
