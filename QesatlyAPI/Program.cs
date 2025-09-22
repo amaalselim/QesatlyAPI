@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Qesatly.Core;
+using Qesatly.Infrastructure.Context;
 using Qesatly.Service;
 using Swashbuckle.AspNetCore.SwaggerGen;
 namespace QesatlyAPI
@@ -10,6 +12,10 @@ namespace QesatlyAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<ApplicationDBContext>(option =>
+            {
+                option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
             // Add services to the container.
 
             builder.Services.AddControllers();
