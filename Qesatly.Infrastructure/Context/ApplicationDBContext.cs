@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Qesatly.Data.Entities;
 
 namespace Qesatly.Infrastructure.Context
 {
@@ -12,5 +13,9 @@ namespace Qesatly.Infrastructure.Context
         {
 
         }
+        public DbSet<Clients> clients { get; set; }
+        public DbSet<Products> products { get; set; }
+        public DbSet<Contracts> contracts { get; set; }
+        public DbSet<Installments> installments { get; set; }
     }
 }
