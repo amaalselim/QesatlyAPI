@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Qesatly.Infrastructure.Abstracts;
+using Qesatly.Infrastructure.Repositories;
 
 namespace Qesatly.Infrastructure
 {
@@ -6,6 +8,7 @@ namespace Qesatly.Infrastructure
     {
         public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services)
         {
+            services.AddTransient<IClientRepository, ClientRepository>();
             return services;
         }
     }
