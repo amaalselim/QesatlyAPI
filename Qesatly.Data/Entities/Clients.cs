@@ -13,5 +13,7 @@
         public string? guarantorName { get; set; }
         public string? guarantorPhone { get; set; }
         public string? guarantorCardphoto { get; set; }
+
+        public ICollection<Products?> Products { get; set; } = new List<Products?>();
     }
 }
