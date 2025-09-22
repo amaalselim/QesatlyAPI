@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Qesatly.Core;
+using Qesatly.Infrastructure;
 using Qesatly.Infrastructure.Context;
 using Qesatly.Service;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -36,7 +37,9 @@ namespace QesatlyAPI
             #region Dependency Injection
 
             builder.Services.AddServiceDependencies()
-                .AddCoreDependecies();
+                            .AddCoreDependecies()
+                            .AddInfrastructureDependencies()
+                            .AddCoreDependecies();
             #endregion
 
             #region SwaggerRegion
