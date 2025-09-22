@@ -6,7 +6,7 @@ namespace Qesatly.Service.DTO
     {
         public string Name { get; set; }
         public string Phone { get; set; }
-        public int NationalNumber { get; set; }
+        public string NationalNumber { get; set; }
         public string Address { get; set; }
         public IFormFile Cardphoto { get; set; }
         public bool Isguarantor { get; set; } = false;
