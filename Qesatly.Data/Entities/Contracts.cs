@@ -2,5 +2,6 @@
 {
     public class Contracts
     {
+        public int Id { get; set; }
     }
 }
