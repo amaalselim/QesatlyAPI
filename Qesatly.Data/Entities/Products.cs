@@ -7,7 +7,7 @@ namespace Qesatly.Data.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-        [ForeignKey(nameof(Products))]
+        [ForeignKey(nameof(Clients))]
         public int? clientId { get; set; }
         public virtual Clients? Clients { get; set; }
     }

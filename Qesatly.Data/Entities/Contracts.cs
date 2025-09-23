@@ -9,8 +9,11 @@ namespace Qesatly.Data.Entities
         public decimal DownPayment { get; set; }
         public decimal insertRate { get; set; }
         public int InstallmentCount { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now.Date;
+        public DateTime StartDate { get; set; } = DateTime.Now.Date;
+        public DateTime EndDate { get; set; } = DateTime.Now.Date;
+
+        public decimal InstallmentValue { get; set; }
         [ForeignKey("Products")]
         public int? productId { get; set; }
         public virtual Products? Products { get; set; }
