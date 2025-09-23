@@ -48,7 +48,28 @@ namespace Qesatly.Infrastructure.Repositories
 
             await _context.contracts.AddAsync(contracts);
             await _context.SaveChangesAsync();
+
+
+            var installments = GenerateInstallments(contracts);
+            await _context.installments.AddRangeAsync(installments);
+            await _context.SaveChangesAsync();
+
             return _responseHandler.Created<string>("Product added successfully", null);
+        }
+        private List<Installments> GenerateInstallments(Contracts contracts)
+        {
+            var Installments = new List<Installments>();
+            for (int i = 0; i < contracts.InstallmentCount; i++)
+            {
+                Installments.Add(new Installments
+                {
+                    ContractId = contracts.Id,
+                    Amount = contracts.InstallmentValue,
+                    DueDate = contracts.StartDate.AddMonths(i),
+                    IsPaid = false
+                });
+            }
+            return Installments;
         }
     }
 }
