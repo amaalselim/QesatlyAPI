@@ -12,6 +12,8 @@ namespace Qesatly.Service.Mapping
                 .ForMember(dest => dest.Cardphoto, opt => opt.Ignore())
                 .ForMember(dest => dest.guarantorCardphoto, opt => opt.Ignore());
 
+            CreateMap<AddProductDto, Products>();
+
         }
     }
 }
