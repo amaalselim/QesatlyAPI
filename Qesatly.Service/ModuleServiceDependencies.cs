@@ -12,6 +12,7 @@ namespace Qesatly.Service
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IImageService, ImageService>();
 
+
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();
