@@ -34,14 +34,7 @@ namespace Qesatly.Infrastructure.Repositories
             DateTime createdAt = DateTime.Now;
             DateTime startDate;
 
-            if (createdAt.Day <= 15)
-            {
-                startDate = new DateTime(createdAt.Year, createdAt.Month, 1).AddMonths(1);
-            }
-            else
-            {
-                startDate = new DateTime(createdAt.Year, createdAt.Month, 1).AddMonths(2);
-            }
+            startDate = createdAt.AddMonths(1);
             Contracts contracts = new Contracts
             {
                 productId = productmapper.Id,
