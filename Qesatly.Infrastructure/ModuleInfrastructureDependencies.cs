@@ -9,6 +9,7 @@ namespace Qesatly.Infrastructure
         public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services)
         {
             services.AddTransient<IClientRepository, ClientRepository>();
+            services.AddTransient<IContractRepository, ContractRepository>();
             return services;
         }
     }
