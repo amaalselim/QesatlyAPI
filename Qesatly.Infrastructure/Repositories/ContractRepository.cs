@@ -30,8 +30,18 @@ namespace Qesatly.Infrastructure.Repositories
             decimal rate = product.insertRate / 100m;
             decimal afterInterest = remaining * (1 + rate);
             decimal installmentValue = afterInterest / product.InstallmentCount;
-            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)
-                        .AddMonths(1);
+
+            DateTime createdAt = DateTime.Now;
+            DateTime startDate;
+
+            if (createdAt.Day <= 15)
+            {
+                startDate = new DateTime(createdAt.Year, createdAt.Month, 1).AddMonths(1);
+            }
+            else
+            {
+                startDate = new DateTime(createdAt.Year, createdAt.Month, 1).AddMonths(2);
+            }
             Contracts contracts = new Contracts
             {
                 productId = productmapper.Id,
