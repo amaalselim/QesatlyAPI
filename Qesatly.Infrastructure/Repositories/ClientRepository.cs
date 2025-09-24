@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Qesatly.Core.Bases;
 using Qesatly.Data.Entities;
+using Qesatly.Data.Enums;
 using Qesatly.Infrastructure.Abstracts;
 using Qesatly.Infrastructure.Context;
 using Qesatly.Service.Abstracts;
@@ -45,6 +47,28 @@ namespace Qesatly.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return _responseHandler.Created<string>("Client added successfully", $" ClientId : {clientmapper.Id}");
 
+        }
+        public async Task<Response<IEnumerable<GetClientsDto>>> GetAllAsync()
+        {
+            var installments = await _context.installments
+                .Include(i => i.Contracts)
+                .ThenInclude(c => c.Clients)
+                .Include(i => i.Contracts)
+                .ThenInclude(c => c.Products)
+            .ToListAsync();
+
+            var clientsDto = installments
+                .GroupBy(i => i.ContractId)
+                .Select(c => new GetClientsDto
+                {
+                    Name = c.First().Contracts.Clients.Name,
+                    productName = c.First().Contracts.Products.Name,
+                    paidInstallments = $"{c.Count(i => i.IsPaid)}/{c.First().Contracts.InstallmentCount}",
+                    ContractStatus = c.All(i => i.IsPaid) ? ContractStatus.FullyPaid.ToString() : ContractStatus.Active.ToString()
+
+                });
+
+            return _responseHandler.Success<IEnumerable<GetClientsDto>>(clientsDto);
         }
     }
 }
