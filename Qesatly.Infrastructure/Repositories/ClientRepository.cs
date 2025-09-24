@@ -55,8 +55,7 @@ namespace Qesatly.Infrastructure.Repositories
                 await _context.clients.AddAsync(clientmapper);
                 await _context.SaveChangesAsync();
             }
-            return _responseHandler
-                .Created<string>("Client added successfully",
+            return _responseHandler.Created<string>("Client added successfully",
                 $" ClientId : {clientmapper.Id}");
 
         }
