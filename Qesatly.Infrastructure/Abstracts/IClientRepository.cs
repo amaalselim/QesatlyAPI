@@ -7,5 +7,6 @@ namespace Qesatly.Infrastructure.Abstracts
     {
         Task<Response<string>> AddAsync(AddClientDto client);
         Task<Response<IEnumerable<GetClientsDto>>> GetAllAsync(string? search = null);
+        Task<Response<dashboardDto>> GetDashboardDataAsync();
     }
 }
