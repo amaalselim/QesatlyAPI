@@ -29,9 +29,9 @@ namespace QesatlyAPI.Controllers
             return StatusCode((int)result.StatusCode, result);
         }
         [HttpGet("get-clients")]
-        public async Task<IActionResult> GetClients()
+        public async Task<IActionResult> GetClients([FromQuery] string? search = null)
         {
-            var result = await _clientRepository.GetAllAsync();
+            var result = await _clientRepository.GetAllAsync(search);
             return StatusCode((int)result.StatusCode, result);
         }
 
