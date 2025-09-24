@@ -28,24 +28,36 @@ namespace Qesatly.Infrastructure.Repositories
 
         public async Task<Response<string>> AddAsync(AddClientDto client)
         {
-            var clientmapper = _mapper.Map<Clients>(client);
+            var existingClient = await _context.clients
+                 .FirstOrDefaultAsync(c => c.NationalNumber == client.NationalNumber);
 
-            if (client.Cardphoto != null)
+            Clients clientmapper;
+            if (existingClient != null)
             {
-                var path = @"Images/Clients/Card/";
-                clientmapper.Cardphoto = await _imageService.SaveFileAsync(client.Cardphoto, path);
+                clientmapper = existingClient;
             }
-            if (client.Isguarantor)
+            else
             {
-                var path = @"Images/Clients/guarantorCard/";
-                if (client.guarantorCardphoto != null)
+                clientmapper = _mapper.Map<Clients>(client);
+                if (client.Cardphoto != null)
                 {
-                    clientmapper.guarantorCardphoto = await _imageService.SaveFileAsync(client.guarantorCardphoto, path);
+                    var path = @"Images/Clients/Card/";
+                    clientmapper.Cardphoto = await _imageService.SaveFileAsync(client.Cardphoto, path);
                 }
+                if (client.Isguarantor)
+                {
+                    var path = @"Images/Clients/guarantorCard/";
+                    if (client.guarantorCardphoto != null)
+                    {
+                        clientmapper.guarantorCardphoto = await _imageService.SaveFileAsync(client.guarantorCardphoto, path);
+                    }
+                }
+                await _context.clients.AddAsync(clientmapper);
+                await _context.SaveChangesAsync();
             }
-            await _context.clients.AddAsync(clientmapper);
-            await _context.SaveChangesAsync();
-            return _responseHandler.Created<string>("Client added successfully", $" ClientId : {clientmapper.Id}");
+            return _responseHandler
+                .Created<string>("Client added successfully",
+                $" ClientId : {clientmapper.Id}");
 
         }
         public async Task<Response<IEnumerable<GetClientsDto>>> GetAllAsync(string? search = null)
