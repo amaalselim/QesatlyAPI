@@ -89,6 +89,28 @@ namespace Qesatly.Infrastructure.Repositories
             return _responseHandler.Success<IEnumerable<GetClientsDto>>(clientsDto);
         }
 
+        public async Task<Response<dashboardDto>> GetDashboardDataAsync()
+        {
+            var totalClients = await _context.clients.CountAsync();
+            var totalProducts = await _context.products.CountAsync();
+
+            var installments = await _context.installments
+                 .GroupBy(i => i.ContractId)
+                 .ToListAsync();
+            var completed = installments.Count(g => g.All(i => i.IsPaid));
+            var active = installments.Count(g => g.Any(i => !i.IsPaid));
+
+            var dashboardData = new dashboardDto
+            {
+                totalClients = totalClients,
+                totalProducts = totalProducts,
+                completedInstallments = completed,
+                activeInstallments = active
+            };
+
+            return _responseHandler.Success<dashboardDto>(dashboardData);
+        }
+
     }
 
 }
