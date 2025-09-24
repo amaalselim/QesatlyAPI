@@ -28,6 +28,13 @@ namespace QesatlyAPI.Controllers
             var result = await _productRepository.AddAsync(product);
             return StatusCode((int)result.StatusCode, result);
         }
+        [HttpGet("get-clients")]
+        public async Task<IActionResult> GetClients()
+        {
+            var result = await _clientRepository.GetAllAsync();
+            return StatusCode((int)result.StatusCode, result);
+        }
+
 
     }
 }
