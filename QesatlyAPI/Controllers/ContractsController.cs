@@ -34,6 +34,12 @@ namespace QesatlyAPI.Controllers
             var result = await _clientRepository.GetAllAsync(search);
             return StatusCode((int)result.StatusCode, result);
         }
+        [HttpGet("get-dashboard-data")]
+        public async Task<IActionResult> GetDashboardData()
+        {
+            var result = await _clientRepository.GetDashboardDataAsync();
+            return StatusCode((int)result.StatusCode, result);
+        }
 
 
     }
