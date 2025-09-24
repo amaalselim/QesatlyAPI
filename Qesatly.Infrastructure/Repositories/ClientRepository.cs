@@ -48,7 +48,7 @@ namespace Qesatly.Infrastructure.Repositories
             return _responseHandler.Created<string>("Client added successfully", $" ClientId : {clientmapper.Id}");
 
         }
-        public async Task<Response<IEnumerable<GetClientsDto>>> GetAllAsync()
+        public async Task<Response<IEnumerable<GetClientsDto>>> GetAllAsync(string? search = null)
         {
             var installments = await _context.installments
                 .Include(i => i.Contracts)
@@ -68,7 +68,16 @@ namespace Qesatly.Infrastructure.Repositories
 
                 });
 
+            if (!string.IsNullOrEmpty(search))
+            {
+                clientsDto = clientsDto.Where(x =>
+                    x.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    x.productName.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
+
             return _responseHandler.Success<IEnumerable<GetClientsDto>>(clientsDto);
         }
+
     }
+
 }
