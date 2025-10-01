@@ -10,6 +10,7 @@ namespace Qesatly.Infrastructure
         {
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IContractRepository, ContractRepository>();
+            services.AddTransient<IInstallmentRepository, InstallmentRepository>();
             return services;
         }
     }
