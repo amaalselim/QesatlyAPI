@@ -19,6 +19,12 @@ namespace QesatlyAPI.Controllers
             var result = await _installmentRepository.GetAllInstallmetns();
             return StatusCode((int)result.StatusCode, result);
         }
+        [HttpGet("get-installment-by-id/{id}")]
+        public async Task<IActionResult> GetInstallmentById(int id)
+        {
+            var result = await _installmentRepository.GetInstallmentById(id);
+            return StatusCode((int)result.StatusCode, result);
+        }
 
     }
 }
