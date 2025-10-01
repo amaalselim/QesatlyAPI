@@ -66,7 +66,7 @@ namespace Qesatly.Infrastructure.Repositories
                 clientName = installment.Contracts.Clients.Name,
                 productName = installment.Contracts.Products.Name,
                 phoneNumber = installment.Contracts.Clients.Phone,
-                InstallmentValue = installment.Contracts.InstallmentValue,
+                InstallmentValue = installment.Amount,
                 PaidAmount = paidAmount,
                 Balance = installment.Contracts.TotalPrice - paidAmount
             };
