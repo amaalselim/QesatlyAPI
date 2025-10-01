@@ -66,8 +66,8 @@ namespace Qesatly.Infrastructure.Repositories
                 clientName = installment.Contracts.Clients.Name,
                 productName = installment.Contracts.Products.Name,
                 phoneNumber = installment.Contracts.Clients.Phone,
-                InstallmentValue = installment.Amount,
                 PaidAmount = paidAmount,
+                DueAmount = installment.Amount,
                 Balance = installment.Contracts.TotalPrice - paidAmount
             };
             return _responseHandler.Success<GetInstallmentByIdDto>(installmentDto);
