@@ -7,6 +7,6 @@ namespace Qesatly.Infrastructure.Abstracts
     {
         Task<Response<IEnumerable<GetAllInstallmentsDto>>> GetAllInstallmetns();
         Task<Response<GetInstallmentByIdDto>> GetInstallmentById(int id);
-
+        Task<Response<string>> RecordPayment(int id, RecordPaymentDto recordPaymentDto);
     }
 }
