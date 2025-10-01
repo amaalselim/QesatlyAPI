@@ -8,5 +8,8 @@
         public decimal DownPayment { get; set; }
         public decimal insertRate { get; set; }
         public int InstallmentCount { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime CreatedAt { get; set; }
+
     }
 }
