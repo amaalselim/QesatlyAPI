@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Qesatly.Infrastructure.Abstracts;
+using Qesatly.Service.DTO;
 
 namespace QesatlyAPI.Controllers
 {
@@ -23,6 +24,12 @@ namespace QesatlyAPI.Controllers
         public async Task<IActionResult> GetInstallmentById(int id)
         {
             var result = await _installmentRepository.GetInstallmentById(id);
+            return StatusCode((int)result.StatusCode, result);
+        }
+        [HttpPost("record-payment/{id}")]
+        public async Task<IActionResult> RecordPayment(int id, [FromBody] RecordPaymentDto recordPaymentDto)
+        {
+            var result = await _installmentRepository.RecordPayment(id, recordPaymentDto);
             return StatusCode((int)result.StatusCode, result);
         }
 
