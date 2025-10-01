@@ -71,8 +71,22 @@ namespace Qesatly.Infrastructure.Repositories
                 Balance = installment.Contracts.TotalPrice - paidAmount
             };
             return _responseHandler.Success<GetInstallmentByIdDto>(installmentDto);
+        }
 
+        public async Task<Response<string>> RecordPayment(int id, RecordPaymentDto recordPaymentDto)
+        {
+            var installment = await _context.installments.FirstOrDefaultAsync(i => i.Id == id);
+            if (installment == null)
+                return _responseHandler.NotFound<string>("Installment not found");
 
+            if (installment.IsPaid)
+                return _responseHandler.BadRequest<string>("Installment is already paid");
+
+            installment.Amount = recordPaymentDto.AmountPaid;
+            installment.IsPaid = true;
+            installment.PaymentDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return _responseHandler.Success<string>("Payment recorded successfully");
         }
     }
 }
