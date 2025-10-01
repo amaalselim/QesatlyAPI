@@ -16,6 +16,18 @@ namespace QesatlyAPI.Controllers
             _clientRepository = clientRepository;
             _productRepository = productRepository;
         }
+        [HttpGet("get-dashboard-data")]
+        public async Task<IActionResult> GetDashboardData()
+        {
+            var result = await _clientRepository.GetDashboardDataAsync();
+            return StatusCode((int)result.StatusCode, result);
+        }
+        [HttpGet("get-clients")]
+        public async Task<IActionResult> GetClients([FromQuery] string? search = null)
+        {
+            var result = await _clientRepository.GetAllAsync(search);
+            return StatusCode((int)result.StatusCode, result);
+        }
         [HttpPost("add-client")]
         public async Task<IActionResult> AddClient([FromForm] AddClientDto client)
         {
@@ -26,18 +38,6 @@ namespace QesatlyAPI.Controllers
         public async Task<IActionResult> AddProduct([FromBody] AddProductDto product)
         {
             var result = await _productRepository.AddAsync(product);
-            return StatusCode((int)result.StatusCode, result);
-        }
-        [HttpGet("get-clients")]
-        public async Task<IActionResult> GetClients([FromQuery] string? search = null)
-        {
-            var result = await _clientRepository.GetAllAsync(search);
-            return StatusCode((int)result.StatusCode, result);
-        }
-        [HttpGet("get-dashboard-data")]
-        public async Task<IActionResult> GetDashboardData()
-        {
-            var result = await _clientRepository.GetDashboardDataAsync();
             return StatusCode((int)result.StatusCode, result);
         }
 
