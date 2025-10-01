@@ -9,8 +9,8 @@ namespace Qesatly.Service
     {
         public static IServiceCollection AddServiceDependencies(this IServiceCollection services)
         {
-            services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IImageService, ImageService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IImageService, ImageService>();
 
 
             services.AddAutoMapper(cfg =>
