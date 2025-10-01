@@ -31,10 +31,9 @@ namespace Qesatly.Infrastructure.Repositories
             decimal afterInterest = remaining * (1 + rate);
             decimal installmentValue = afterInterest / product.InstallmentCount;
 
-            DateTime createdAt = DateTime.Now;
-            DateTime startDate;
+            DateTime createdAt = product.CreatedAt;
+            DateTime startDate = product.StartDate;
 
-            startDate = createdAt.AddMonths(1);
             Contracts contracts = new Contracts
             {
                 productId = productmapper.Id,
@@ -44,7 +43,7 @@ namespace Qesatly.Infrastructure.Repositories
                 InstallmentCount = product.InstallmentCount,
                 StartDate = startDate,
                 EndDate = startDate.AddMonths(product.InstallmentCount),
-                CreatedAt = DateTime.Now.Date,
+                CreatedAt = createdAt,
                 TotalPrice = afterInterest,
                 InstallmentValue = installmentValue
             };
@@ -52,13 +51,13 @@ namespace Qesatly.Infrastructure.Repositories
             await _context.contracts.AddAsync(contracts);
             await _context.SaveChangesAsync();
 
-
             var installments = GenerateInstallments(contracts);
             await _context.installments.AddRangeAsync(installments);
             await _context.SaveChangesAsync();
 
             return _responseHandler.Created<string>("Product added successfully", null);
         }
+
         private List<Installments> GenerateInstallments(Contracts contracts)
         {
             var Installments = new List<Installments>();
