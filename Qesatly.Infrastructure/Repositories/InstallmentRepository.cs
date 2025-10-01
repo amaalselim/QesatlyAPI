@@ -42,5 +42,37 @@ namespace Qesatly.Infrastructure.Repositories
             return _responseHandler.Success<IEnumerable<GetAllInstallmentsDto>>(installmentDtos);
 
         }
+
+        public async Task<Response<GetInstallmentByIdDto>> GetInstallmentById(int id)
+        {
+            var installment = await _context.installments
+                .Include(i => i.Contracts)
+                        .ThenInclude(c => c.Clients)
+                .Include(i => i.Contracts)
+                         .ThenInclude(c => c.Products)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            var paidAmount = _context.installments
+                .Where(i => i.ContractId == installment.ContractId && i.IsPaid)
+                .Sum(i => i.Amount);
+
+
+            if (installment == null)
+                return _responseHandler.NotFound<GetInstallmentByIdDto>();
+
+            var installmentDto = new GetInstallmentByIdDto
+            {
+                Id = installment.Id,
+                clientName = installment.Contracts.Clients.Name,
+                productName = installment.Contracts.Products.Name,
+                phoneNumber = installment.Contracts.Clients.Phone,
+                InstallmentValue = installment.Contracts.InstallmentValue,
+                PaidAmount = paidAmount,
+                Balance = installment.Contracts.InstallmentValue - paidAmount
+            };
+            return _responseHandler.Success<GetInstallmentByIdDto>(installmentDto);
+
+
+        }
     }
 }
